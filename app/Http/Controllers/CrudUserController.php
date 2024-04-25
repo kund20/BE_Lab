@@ -119,7 +119,7 @@ class CrudUserController extends Controller
         $request->validate([
             'name' => 'required',
             'mssv' => 'required',
-            'favorities' => 'favorities',
+            'favorities' => 'required',
             'email' => 'required|email|unique:users,id,'.$input['id'],
             'password' => 'required|min:6|same:password_confirmation',
             'password_confirmation' => 'required|min:6'
