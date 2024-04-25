@@ -41,6 +41,19 @@
                             </div>
                             <div class="form-group mb-3">
                             <div class="row">
+                            <div class="col-md-3">
+                                <label for="name" class="form-label">Mssv</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="favorities" id="favorities" class="form-control" name="favorities" value="{!! $user->favorities !!}" required autofocus>
+                                @if ($errors->has('favorities'))
+                                    <span class="text-danger">{!! $errors->first('favorities') !!}</span>
+                                @endif
+                                </div>
+                            </div>
+                            </div>
+                            <div class="form-group mb-3">
+                            <div class="row">
                                 <div class="col-md-3">
                                 <label for="password" class="form-label">Mật khẩu</label>
                             </div>

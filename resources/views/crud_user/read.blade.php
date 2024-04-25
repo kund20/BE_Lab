@@ -10,6 +10,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Mssv</th>
+                            <th>Favorities</th>
                             <th>Email</th>
                         </tr>
                     </thead>
@@ -18,6 +19,7 @@
                             <td>{{$messi->id}}</td>
                             <td>{{$messi->name}}</td>
                             <td>{{$messi->mssv}}</td>
+                            <td>{!!$messi->favorities!!}</td>
                             <td>{{$messi->email}}</td>
                         </tr>
                     </tbody>

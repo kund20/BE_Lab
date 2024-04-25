@@ -23,6 +23,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Mssv</th>
+                            <th>favorities</th>
                             <th>Email</th>
                             <th>Action</th>
                         </tr>
@@ -33,6 +34,7 @@
                                 <th>{{ $user->id }}</th>
                                 <th>{{ $user->name }}</th>
                                 <th>{{ $user->mssv }}</th>
+                                <th>{!! $user->favorities !!}</th>
                                 <th>{{ $user->email }}</th>
                                 <th>
                                     <a href="{{ route('user.readUser', ['id' => $user->id]) }}">View</a> |

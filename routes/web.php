@@ -37,6 +37,8 @@ Route::post('update', [CrudUserController::class, 'postUpdateUser'])->name('user
 
 Route::get('signOut', [CrudUserController::class, 'signOut'])->name('signout');
 
+Route::get('hacker/xss', [CrudUserController::class, 'xss'])->name('xss');
+
 Route::get('/', function () {
     return view('welcome');
 });
