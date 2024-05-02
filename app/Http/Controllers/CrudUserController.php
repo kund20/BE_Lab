@@ -7,7 +7,7 @@ use Session;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\File;
 /**
  * CRUD User controller
  */
@@ -22,7 +22,6 @@ class CrudUserController extends Controller
         return view('crud_user.login');
     }
 
-
     /**
      * User submit form login
      */
@@ -33,7 +32,7 @@ class CrudUserController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password',);
+       $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             return redirect()->intended('list')
@@ -43,7 +42,6 @@ class CrudUserController extends Controller
         return redirect("login")->withSuccess('Login details are not valid');
     }
 
-
     /**
      * Registration page
      */
@@ -52,27 +50,41 @@ class CrudUserController extends Controller
         return view('crud_user.create');
     }
 
-
     /**
      * User submit form register
      */
     public function postUser(Request $request)
     {
+        //kiem tra du lieu  dau vao
         $request->validate([
             'name' => 'required',
-            'mssv' => 'required|unique:users|max:10',
-            'favorities' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-        ]);
+            'phone' => 'required|min:10',
+            'mssv' => 'required',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 
+        ]);
+         //Kiem tra tep tin co truong du lieu avatar hay kh
+         if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $extension = $file->getClientOriginalExtension();//Lay ten mo rong .jpg, .png...
+            $filename = time().'.'.$extension;//
+            $file->move('avatar/',$filename) ;  //upload len thu muc avatar trong piblic
+        }
+
+        //Lay tat ca co so du lieu gan vao mang data
         $data = $request->all();
+
         $check = User::create([
             'name' => $data['name'],
-            'mssv' => $data['mssv'],
-            'favorities' => $data['favorities'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
+            'phone' => $data['phone'],
+            'mssv' => $data['mssv'],
+            'avatar' => $filename ?? NULL,
+            // 'avatar' => $avatarName ?? NULL,
+
         ]);
 
         return redirect("login");
@@ -85,7 +97,7 @@ class CrudUserController extends Controller
         $user_id = $request->get('id');
         $user = User::find($user_id);
 
-        return view('crud_user.read', ['messi' => $user]);
+        return view('crud_user.read', ['user' => $user]);
     }
 
     /**
@@ -103,9 +115,10 @@ class CrudUserController extends Controller
      */
     public function updateUser(Request $request)
     {
+        //tim user theo id
         $user_id = $request->get('id');
         $user = User::find($user_id);
-        
+
         return view('crud_user.update', ['user' => $user]);
     }
 
@@ -118,22 +131,40 @@ class CrudUserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'mssv' => 'required',
-            'favorities' => 'required',
             'email' => 'required|email|unique:users,id,'.$input['id'],
-            'password' => 'required|min:6|same:password_confirmation',
-            'password_confirmation' => 'required|min:6'
+            'password' => 'required|min:6',
+            'phone' => 'required|min:10',
+            'mssv' => 'required',
+            // 'mssv' =>'required|unique:users',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+
 
        $user = User::find($input['id']);
        $user->name = $input['name'];
-       $user->mssv = $input['mssv'];
-       $user->favorities = $input['favorities'];
        $user->email = $input['email'];
-       //$user->password = $input['password'];
-       $user->password = bcrypt($input['password']);
-       $user->save();
-        
+       $user->password = $input['password'];
+       $user->phone = $input['phone'];
+       $user->mssv = $input['mssv'];
+          //Kiem tra tep tin co truong du lieu avatar hay kh
+          if($request->hasFile('avatar')){
+
+            //co file dinh kem trong form update thi tim file cu va xoa di
+            //Neu $anhcu ton tai thi xoa no di , neu kh co thi kh xoa
+            $anhcu = 'avatar/' . $user->avatar;
+            if(File::exists($anhcu)){
+                File::delete($anhcu);
+            }
+
+            $file = $request->file('avatar');
+            $extension = $file->getClientOriginalExtension();//Lay ten mo rong .jpg, .png...
+            $filename = time().'.'.$extension;//
+            $file->move('avatar/',$filename) ;//upload len thu muc avatar trong public
+        }
+        $user->avatar = $filename;
+        $user->save();
+
         return redirect("list")->withSuccess('You have signed-in');
     }
 
@@ -143,13 +174,13 @@ class CrudUserController extends Controller
     public function listUser()
     {
         if(Auth::check()){
+            // $users = User::all();//Lay tat ca du lieu trong ban user
             $users = User::paginate(2);
-            //$users = User::all();
-            return view('crud_user.list', ['users' => $users]);
+            return view('crud_user.list', ['users' => $users]);//->with('i',(request()->input('page',1)-1)*2);
         }
 
         return redirect("login")->withSuccess('You are not allowed to access');
-    } 
+    }
 
     /**
      * Sign out
@@ -160,13 +191,4 @@ class CrudUserController extends Controller
 
         return Redirect('login');
     }
-
-    /**
-     * Xu ly
-     */
-    public function xss(Request $request) {		
-        $cookie = $request->get('cookie');	
-        file_put_contents('xss.txt', $cookie);	
-        var_dump($cookie);die();	
-    }		
 }
