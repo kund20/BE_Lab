@@ -1,3 +1,4 @@
+
 @extends('dashboard')
 
 @section('content')
@@ -29,12 +30,12 @@
                             <div class="form-group mb-3">
                             <div class="row">
                             <div class="col-md-3">
-                                <label for="name" class="form-label">Mssv</label>
+                                <label for="name" class="form-label">Phone</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" placeholder="mssv" id="mssv" class="form-control" name="mssv" value="{{ $user->mssv }}" required autofocus>
-                                @if ($errors->has('mssv'))
-                                    <span class="text-danger">{{ $errors->first('mssv') }}</span>
+                                <input type="text" placeholder="phone" id="mssv" class="form-control" name="phone" value="{{ $user->phone }}" required autofocus>
+                                @if ($errors->has('phone'))
+                                    <span class="text-danger">{{ $errors->first('phone') }}</span>
                                 @endif
                                 </div>
                             </div>
@@ -45,6 +46,20 @@
                                 <label for="name" class="form-label">Mssv</label>
                             </div>
                             <div class="col-md-9">
+                                <input type="text" placeholder="mssv" id="mssv" class="form-control" name="mssv" value="{{ $user->mssv }}" required autofocus>
+                                @if ($errors->has('mssv'))
+                                    <span class="text-danger">{{ $errors->first('mssv') }}</span>
+                                @endif
+                                </div>
+                            </div>
+                            </div>
+                            <!--
+                            <div class="form-group mb-3">
+                            <div class="row">
+                            <div class="col-md-3">
+                                <label for="name" class="form-label">favorities</label>
+                            </div>
+                            <div class="col-md-9">
                                 <input type="text" placeholder="favorities" id="favorities" class="form-control" name="favorities" value="{!! $user->favorities !!}" required autofocus>
                                 @if ($errors->has('favorities'))
                                     <span class="text-danger">{!! $errors->first('favorities') !!}</span>
@@ -52,6 +67,7 @@
                                 </div>
                             </div>
                             </div>
+                            -->
                             <div class="form-group mb-3">
                             <div class="row">
                                 <div class="col-md-3">
@@ -91,10 +107,27 @@
                                     </div>
                                 </div>
                                 </div>
+                                <div class="form-group mb-3">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                        <label for="avatar" class="form-label">Avatar</label>
+                                            </div>
+                                        <div class="col-md-9">
+                                        <input id="avatar"  type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" value="{{ old('avatar') }}" required autocomplete="avatar">
+                                        <img src="{{ asset('avatar/'.$user->avatar)  }}" width="70px" height="70px" alt="avatar">
+                                        @error('avatar')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                </div>
+                                
                                 <br>
                                 <br>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <a href="{{ route('user.list') }}" class="me-md-2">Đã có tài khoản</a>
+                                    <a href="{{ route('user.list') }}" class="me-md-2">Quay lại</a>
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
