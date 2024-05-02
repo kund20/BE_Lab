@@ -44,8 +44,8 @@
                             <th>Username</th>
                             <th>Avatar</th>
                             <th>MSSV</th>
-                            <th>Email</th>
                             <th>Phone</th>
+                            <th>Email</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
@@ -56,8 +56,8 @@
                                 <th>{{ $user->name }}</th>
                                 <th> <img src="{{ asset('avatar/'.$user->avatar) }}" width="70px" height="70px" alt="avatar"></th>
                                 <th>{{ $user->mssv }}</th>
-                                <th>{{ $user->email }}</th>                               
                                 <th>{{ $user->phone }}</th>
+                                <th>{{ $user->email }}</th>                               
                                 <th>
                                     <a href="{{ route('user.readUser', ['id' => $user->id]) }}"   >View</a> |
                                     <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" >Edit</a> |
@@ -68,7 +68,7 @@
                     </tbody>
                 </table>
             </div>
-            <div style="text-align: center;" class="link">{{ $users->links() }}</div>
+            
         </div>
     </main>
 @endsection
