@@ -191,4 +191,24 @@ class CrudUserController extends Controller
 
         return Redirect('login');
     }
+
+    public function listpost()
+    {
+        if (Auth::check()) {
+            $posts = Posts::all();
+            return view('listPost', ['posts' => $posts]);
+        }
+
+        return redirect("login")->withSuccess('You are not allowed to access');
+    }
+
+    public function listFavorities()
+    {
+
+        $favorities = Favorities::all();
+        return view('listfavorities', ['favorities' => $favorities]);
+
+
+        //return redirect("login")->withSuccess('You are not allowed to access');
+    }
 }

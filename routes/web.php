@@ -39,6 +39,10 @@ Route::get('signOut', [CrudUserController::class, 'signOut'])->name('signout');
 
 Route::get('hacker/xss', [CrudUserController::class, 'xss'])->name('xss');
 
+Route::get('listpost', [CrudUserController::class, 'listpost'])->name('listpost');
+
+Route::get('listFavorities', [CrudUserController::class, 'listFavorities'])->name('listFavorities');
+
 Route::get('/', function () {
     return view('welcome');
 });

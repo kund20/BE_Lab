@@ -1,3 +1,4 @@
+
 @extends('dashboard')
 <style>
    .manHinh{
@@ -44,31 +45,28 @@
      <div class="row">
         <div class="col-md-4">
         <p>Id</p>
-        <p>Username</p>
-        <p>Avatar</p>
-        <p>MSSV</p>
+        <p> Username</p>
+        <p> Email</p>
         <p>Phone</p>
-        <p>Email</p>
+        <p>MSSV</p>
+        <p>Avatar</p>
         </div>
         <div class="col-md-8">
         <p>{{$user->id}}</p>
         <p>{{$user->name}}</p>
-        <img src="{{ asset('avatar/'.$user->avatar) }}" width="100px" height="100px" alt="avatar">
-        <p>{{$user->mssv}}</p>
-        <p>{{$user->phone}}</p>
         <p>{{$user->email}}</p>
+        <p>{{$user->phone}}</p>
+        <p>{{$user->mssv}}</p>
+        <img src="{{ asset('avatar/'.$user->avatar) }}" width="100px" height="100px" alt="avatar">
         </div>
       </div>
+
       <a href="{{ route('user.updateUser', ['id' => $user->id]) }}" class="chinhSua">Chỉnh sửa</a>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <h4>Profile (1-1)</h4>
-        First name : {{$user->profile->first_name}} <br>
-        Last name : {{$user->profile->last_name}} <br>
-    </div>
 
+<div class="container">
+    
     <div class="row">
         <h4>Danh sách bài viết đã viết (1 - N)</h4>
         <table>
