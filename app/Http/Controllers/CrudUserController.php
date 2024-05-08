@@ -196,7 +196,7 @@ class CrudUserController extends Controller
     {
         if (Auth::check()) {
             $posts = Posts::all();
-            return view('listPost', ['posts' => $posts]);
+            return view('crud_user.listPost', ['posts' => $posts]);
         }
 
         return redirect("login")->withSuccess('You are not allowed to access');
@@ -206,7 +206,7 @@ class CrudUserController extends Controller
     {
 
         $favorities = Favorities::all();
-        return view('listfavorities', ['favorities' => $favorities]);
+        return view('crud_user.listfavorities', ['favorities' => $favorities]);
 
 
         //return redirect("login")->withSuccess('You are not allowed to access');
